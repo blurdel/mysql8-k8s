@@ -1,22 +1,23 @@
-# mysql8-k8s-example
+# mysql8-k8s
 
-Example codes used in [my dev.to post]().
+Example code to deploy MySQL 8 with a Persistent Volume
 
-## usage
-### create all resources
-```sh
-./create
+## Usage
+### Create all resources
+```
+./start-all.sh
 ```
 
-### login to mysql server
+### login to MySQL server
 ```sh
-$ kubectl exec -it mysql-client /bin/ash
-$ mysql -h mysql -u your_user -D your_database -pyour_password
-
-MySQL [your_database]> 
+$ kubectl exec -it mysql-client -- /bin/sh
+$ mysql -h mysql-service -u root -ppassword
+$ show databases;
+$ use SPRING;
+MySQL [your-database]> 
 ```
 
-### delete all resources
-```sh
-$ ./delete
+### Delete all resources
+```
+./stop-all.sh
 ```
