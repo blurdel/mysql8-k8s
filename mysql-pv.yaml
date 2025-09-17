@@ -18,7 +18,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: mysql-pv-claim
 spec:
-  storageClassName: manual
+  volumeName: mysql-pv-volume # Force bind to this PV by name
+  storageClassName: ""
   accessModes:
     - ReadWriteOnce
   resources:
