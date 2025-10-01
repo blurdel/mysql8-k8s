@@ -7,6 +7,7 @@ flush privileges;
 -- can verify privileges
 use mysql;
 select Host,User,Select_priv,Insert_priv,Update_priv,Delete_priv,Create_priv,Drop_priv,File_priv,Grant_priv from user;
+select user,host,plugin from mysql.user;
 
 -- create table and data
 drop database if exists SPRING;
