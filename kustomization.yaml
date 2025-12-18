@@ -1,6 +1,0 @@
-resources:
-  - mysql-config.yaml
-  - mysql-secret.yaml
-  - mysql-pv.yaml
-  - mysql.yaml
-  - client-pod.yaml

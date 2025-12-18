@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-service
+  name: {{ .Values.mysql.serviceUrl }}
 spec:
   selector:
     app: mysql
   ports:
-  - port: 3306
+  - port: {{ .Values.service.port }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -15,7 +15,7 @@ metadata:
   labels:
     app: mysql
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: mysql
@@ -25,12 +25,11 @@ spec:
         app: mysql
     spec:
       containers:
-      - name: mysql
-        image: mysql:8.4.0
-        # args: ["--default-authentication-plugin=mysql_native_password"]
+      - name: mysql-server
+        image: {{ .Values.mysql.image.repository }}:{{ .Chart.AppVersion }}
         env:
         - name: MYSQL_DATABASE
-          value: SPRING
+          value: {{ .Values.mysql.database }}
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
@@ -47,12 +46,24 @@ spec:
               name: mysql-secret
               key: mysql-root-password
         ports:
-        - containerPort: 3306
+        - containerPort: {{ .Values.service.port }}
           name: mysql
+        {{- with .Values.livenessProbe }}
+        livenessProbe:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.readinessProbe }}
+        readinessProbe:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         volumeMounts:
         - name: mysql8-persistent-storage
           mountPath: /var/lib/mysql
       volumes:
       - name: mysql8-persistent-storage
         persistentVolumeClaim:
-          claimName: pvc-mysql8
+          claimName: pvc-{{ .Chart.Name }}
