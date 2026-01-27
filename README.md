@@ -5,12 +5,12 @@ Example code to deploy MySQL 8 with a Persistent Volume
 ## Usage
 ### Install
 ```
-helm install <release> ./helm
+helm install <release> ./helm --namespace <name>
 ```
 
 ### List all releases
 ```
-helm list -a
+helm ls -a
 ```
 
 ### login to MySQL server
@@ -19,7 +19,6 @@ $ kubectl exec -it mysql-client -- /bin/sh
 $ mysql -h mysql-service -u root -p
 $ show databases;
 $ use SPRING;
-MySQL [your-database]> 
 ```
 
 ### Uninstall
