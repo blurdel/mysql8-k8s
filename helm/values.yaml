@@ -1,6 +1,7 @@
 # Default values for mysql8
 global:
   port: &appPort 3306
+  namespace: mysql8
 
 replicaCount: 1
 
