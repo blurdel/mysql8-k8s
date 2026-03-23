@@ -1,15 +1,15 @@
 # Default values for mysql8
 global:
-  port: &appPort 3306
-  namespace: mysql8
+  mysqlPort: &mysqlPort 3306
 
-replicaCount: 1
+replicas: 1
 
+# MySQL Deployment
 mysql:
   image:
     repository: mysql
+    version: 8.4.0
     pullPolicy: IfNotPresent
-    tag: ""
   serviceUrl: mysql-service
   rootPassword: c2VjcmV0
   database: SPRING
@@ -20,7 +20,7 @@ podLabels: {}
 
 service:
   type: ClusterIP
-  port: *appPort
+  port: *mysqlPort
 
 resources:
   limits:
@@ -32,26 +32,25 @@ resources:
 
 livenessProbe:
   tcpSocket:
-    port: *appPort
-  initialDelaySeconds: 30
-  periodSeconds: 30
+    port: *mysqlPort
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 3
 readinessProbe:
   tcpSocket:
-    port: *appPort
-  initialDelaySeconds: 30
-  periodSeconds: 30
-
-# Additional volumes on the output Deployment definition.
-volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
-
-# Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
-
-nodeSelector: {}
+    port: *mysqlPort
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 5
+startupProbe:
+  tcpSocket:
+    port: *mysqlPort
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 10
