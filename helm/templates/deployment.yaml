@@ -4,29 +4,29 @@ metadata:
   name: {{ .Values.mysql.serviceUrl }}
 spec:
   selector:
-    app: mysql
+    app: {{ .Chart.Name }}-{{ .Release.Name }}
   ports:
   - port: {{ .Values.service.port }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-deployment
+  name: {{ .Chart.Name }}-{{ .Release.Name }}-deployment
   labels:
-    app: mysql
+    app: {{ .Chart.Name }}-{{ .Release.Name }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
-      app: mysql
+      app: {{ .Chart.Name }}-{{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: mysql
+        app: {{ .Chart.Name }}-{{ .Release.Name }}
     spec:
       containers:
       - name: mysql-server
-        image: {{ .Values.mysql.image.repository }}:{{ .Chart.AppVersion }}
+        image: {{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.version }}
         env:
         - name: MYSQL_DATABASE
           value: {{ .Values.mysql.database }}
@@ -56,6 +56,10 @@ spec:
         readinessProbe:
           {{- toYaml . | nindent 10 }}
         {{- end }}
+        {{- with .Values.startupProbe }}
+        startupProbe:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         {{- with .Values.resources }}
         resources:
           {{- toYaml . | nindent 10 }}
@@ -66,4 +70,4 @@ spec:
       volumes:
       - name: mysql8-persistent-storage
         persistentVolumeClaim:
-          claimName: pvc-{{ .Values.global.namespace }}
+          claimName: pvc-{{ .Chart.Name }}
