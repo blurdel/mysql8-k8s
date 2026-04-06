@@ -20,6 +20,6 @@ CREATE TABLE Person (
     age INT NOT NULL
 );
 
-insert into Person (name, age) values ('Zoey!', 15), ('Tana', 11);
+insert into Person (name, age) values ('Zoey!', 15), ('Tana', 12);
 
 select * from Person;
