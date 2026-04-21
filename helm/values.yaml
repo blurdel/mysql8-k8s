@@ -10,6 +10,8 @@ mysql:
     repository: mysql
     version: 8.4.0
     pullPolicy: IfNotPresent
+    # Add more start-up logging
+    debug: true
   serviceUrl: mysql-service
   rootPassword: c2VjcmV0
   database: SPRING
