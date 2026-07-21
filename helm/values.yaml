@@ -18,8 +18,6 @@ mysql:
   user: dG11c2Vy
   password: dG11c2Vy
 
-podLabels: {}
-
 service:
   type: ClusterIP
   port: *mysqlPort
