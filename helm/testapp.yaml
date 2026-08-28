@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+spec:
+  # 1. This is where your Init Containers go
+  initContainers:
+    - name: install-dependencies
+      image: busybox:1.28
+      command: ['sh', '-c', 'echo Installing... && sleep 5']
+    - name: wait-for-database
+      image: busybox:1.28
+      command: ['sh', '-c', 'until nc -z mysql-service 3306; do sleep 1; done']
+
+  # 2. This is where your main application containers go
+  containers:
+    - name: myapp-container
+      image: nginx:1.14.2
+      ports:
+        - containerPort: 80
