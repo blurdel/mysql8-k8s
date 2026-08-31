@@ -24,7 +24,6 @@ service:
 
 resources:
   limits:
-    cpu: 0.5
     memory: 1Gi
   requests:
     cpu: 0.5
@@ -36,7 +35,6 @@ livenessProbe:
   initialDelaySeconds: 5
   periodSeconds: 10
   timeoutSeconds: 1
-  successThreshold: 1
   failureThreshold: 3
 readinessProbe:
   tcpSocket:
@@ -44,7 +42,6 @@ readinessProbe:
   initialDelaySeconds: 5
   periodSeconds: 10
   timeoutSeconds: 1
-  successThreshold: 1
   failureThreshold: 5
 startupProbe:
   tcpSocket:
@@ -52,5 +49,4 @@ startupProbe:
   initialDelaySeconds: 15
   periodSeconds: 10
   timeoutSeconds: 1
-  successThreshold: 1
   failureThreshold: 10
