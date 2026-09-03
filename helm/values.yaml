@@ -10,13 +10,11 @@ mysql:
     repository: mysql
     version: 8.4.0
     pullPolicy: IfNotPresent
-    # Add more start-up logging
-    debug: true
   serviceUrl: mysql-service
-  rootPassword: c2VjcmV0
   database: SPRING
-  user: dG11c2Vy
-  password: dG11c2Vy
+
+  # Add more start-up logging
+  debug: true
 
 service:
   type: ClusterIP
