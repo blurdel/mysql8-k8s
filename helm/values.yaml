@@ -1,10 +1,7 @@
-# Default values for mysql8
-global:
-  mysqlPort: &mysqlPort 3306
+# Default values for MySql8
 
 replicas: 1
 
-# MySQL Deployment
 mysql:
   image:
     repository: mysql
@@ -14,16 +11,12 @@ mysql:
   database: SPRING
   user: "tmuser"
 
-  # Add more start-up logging
-  debug: true
-
 service:
   type: ClusterIP
-  port: *mysqlPort
+  port: 3306
 
 resources:
   limits:
-    cpu: 0.5
     memory: 1Gi
   requests:
     cpu: 0.5
@@ -31,25 +24,22 @@ resources:
 
 livenessProbe:
   tcpSocket:
-    port: *mysqlPort
+    port: mysql
   initialDelaySeconds: 5
   periodSeconds: 10
   timeoutSeconds: 1
-  successThreshold: 1
   failureThreshold: 3
 readinessProbe:
   tcpSocket:
-    port: *mysqlPort
+    port: mysql
   initialDelaySeconds: 5
   periodSeconds: 10
   timeoutSeconds: 1
-  successThreshold: 1
   failureThreshold: 5
 startupProbe:
   tcpSocket:
-    port: *mysqlPort
+    port: mysql
   initialDelaySeconds: 15
   periodSeconds: 10
   timeoutSeconds: 1
-  successThreshold: 1
   failureThreshold: 10
