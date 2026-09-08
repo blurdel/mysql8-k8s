@@ -12,6 +12,7 @@ mysql:
     pullPolicy: IfNotPresent
   serviceUrl: mysql-service
   database: SPRING
+  user: "tmuser"
 
   # Add more start-up logging
   debug: true

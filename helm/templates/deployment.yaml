@@ -30,21 +30,24 @@ spec:
         env:
         - name: MYSQL_DATABASE
           value: {{ .Values.mysql.database }}
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret
-              key: mysql-user
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret
-              key: mysql-password
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret
-              key: mysql-root-password
+        envFrom:
+        - secretRef:
+            name: mysql-secret # Injecting MYSQL_USER, MYSQL_PASSWORD, and MYSQL_ROOT_PASSWORD all at once
+        # - name: MYSQL_USER
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: mysql-secret
+        #       key: MYSQL_USER
+        # - name: MYSQL_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: mysql-secret
+        #       key: MYSQL_PASSWORD
+        # - name: MYSQL_ROOT_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: mysql-secret
+        #       key: MYSQL_ROOT_PASSWORD
         ports:
         - containerPort: {{ .Values.service.port }}
           name: mysql

@@ -4,10 +4,14 @@ grant select, insert, update, delete, show view on `SPRING`.* to 'tmuser'@'%';
 -- grant all on *.* to 'tmuser'@'%';
 flush privileges;
 
+SELECT USER(), CURRENT_USER();
+SHOW GRANTS FOR 'tmuser'@'%';
+
 -- can verify privileges
 use mysql;
 select Host,User,Select_priv,Insert_priv,Update_priv,Delete_priv,Create_priv,Drop_priv,File_priv,Grant_priv from user;
 select user,host,plugin from mysql.user;
+
 
 -- create table and data
 drop database if exists SPRING;
@@ -20,6 +24,6 @@ CREATE TABLE Person (
     age INT NOT NULL
 );
 
-insert into Person (name, age) values ('Zoey!', 15), ('Tana', 12);
+insert into Person (name, age) values ('Zoey!', 15), ('Tana', 13);
 
 select * from Person;
