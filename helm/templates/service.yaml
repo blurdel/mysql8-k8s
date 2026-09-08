@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.mysql.serviceUrl }}
+spec:
+  selector:
+    app: {{ .Chart.Name }}-{{ .Release.Name }}
+  ports:
+  - name: mysql-service-port
+    port: {{ .Values.service.port }}
+    targetPort: mysql

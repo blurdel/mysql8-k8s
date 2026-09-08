@@ -1,13 +1,4 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.mysql.serviceUrl }}
-spec:
-  selector:
-    app: {{ .Chart.Name }}-{{ .Release.Name }}
-  ports:
-  - port: {{ .Values.service.port }}
----
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,25 +18,12 @@ spec:
       containers:
       - name: mysql-server
         image: {{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.version }}
-        debug: {{ .Values.mysql.image.debug }}
         env:
         - name: MYSQL_DATABASE
           value: {{ .Values.mysql.database }}
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret
-              key: mysql-user
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret
-              key: mysql-password
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret
-              key: mysql-root-password
+        envFrom:
+        - secretRef:
+            name: mysql-secret # Injecting MYSQL_USER, MYSQL_PASSWORD, and MYSQL_ROOT_PASSWORD all at once
         ports:
         - containerPort: {{ .Values.service.port }}
           name: mysql
