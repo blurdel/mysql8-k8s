@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mysql-840
+  namespace: argocd # Namespace where Argo CD is running
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/blurdel/mysql8-k8s'
+    targetRevision: HEAD
+    path: helm
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: mysql
+  syncPolicy:
+    automated:
+      enabled: false
+      prune: false
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
