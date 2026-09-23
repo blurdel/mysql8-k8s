@@ -15,7 +15,7 @@ helm ls -a [-n <namespace>]
 
 ### login to MySQL server
 ```sh
-$ kubectl exec -it mysql-client -- /bin/sh
+$ kubectl exec -it mysql -- /bin/sh
 $ mysql -h mysql-service -u root -p
 $ show databases;
 $ use SPRING;
@@ -23,7 +23,7 @@ $ use SPRING;
 
 ### Uninstall
 ```
-helm uninstall <release> [-n <namespace>]
+helm uninstall <release> -n <namespace>
 ```
 
 ### ExternalSecret/Secret

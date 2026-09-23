@@ -1,7 +1,5 @@
 # Default values for MySql8
 
-replicas: 1
-
 mysql:
   image:
     repository: mysql
