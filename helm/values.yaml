@@ -2,12 +2,12 @@
 
 mysql:
   image:
-    repository: mysql
+    repository: localhost:5000/mysql
     version: 8.4.0
     pullPolicy: Always
   serviceUrl: mysql-service
   database: SPRING
-  user: "tmuser"
+  user: tmuser
 
 service:
   type: ClusterIP
